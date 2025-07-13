@@ -113,17 +113,27 @@ export const uploadImage = async (req: Request, res: Response) => {
 export const getUserByHandle = async (req: Request, res: Response) => {
     try {
         const { handle } = req.params
-        const user = await User.findOne({ handle }).select('-_id -__v -email -password')
+        const user = await User.findOne({ handle })
+
         if (!user) {
             const error = new Error('El Usuario no existe')
             return res.status(404).json({ error: error.message })
         }
-        res.json(user)
+
+        // ✅ Incrementar contador de visitas
+        user.profileViews = (user.profileViews || 0) + 1
+        await user.save()
+
+        // ✅ Ocultar campos sensibles
+        const { _id, __v, email, password, ...userData } = user.toObject()
+        res.json(userData)
+
     } catch (e) {
         const error = new Error('Hubo un error')
         return res.status(500).json({ error: error.message })
     }
 }
+
 
 export const searchByHandle = async (req: Request, res: Response) => {
     try {

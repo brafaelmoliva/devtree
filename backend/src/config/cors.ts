@@ -1,17 +1,17 @@
 import { CorsOptions } from 'cors'
 
-export const corsConfig : CorsOptions = {
-    origin: function(origin, callback) {
-        const whiteList = [process.env.FRONTEND_URL]
+export const corsConfig: CorsOptions = {
+  origin: (origin, callback) => {
+    const whiteList = [
+      process.env.FRONTEND_URL,  // tu frontend Netlify
+      undefined                  // para peticiones sin origin (ej: Postman)
+    ]
 
-        if(process.argv[2] === '--api') {
-            whiteList.push(undefined)
-        }
-
-        if(whiteList.includes(origin)) {
-            callback(null, true)
-        } else {
-            callback(new Error('Error de CORS'))
-        }
+    if (whiteList.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error(`CORS error: origen ${origin} no permitido`))
     }
+  },
+  credentials: true, // si usas cookies o headers de autenticación
 }

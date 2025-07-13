@@ -8,6 +8,7 @@ export interface IUser extends Document {
     description: string
     image: string
     links: string
+    profileViews: number // ✅ Nuevo campo
 }
 
 const userSchema = new Schema({
@@ -46,6 +47,10 @@ const userSchema = new Schema({
     links: {
         type: String,
         default: '[]'
+    },
+    profileViews: {
+        type: Number,
+        default: 0 // ✅ Contador inicia en 0
     }
 })
 

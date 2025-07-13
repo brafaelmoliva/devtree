@@ -8,6 +8,8 @@ import ProfileView from './views/ProfileView'
 import HandleView from './views/HandleView'
 import NotFoundView from './views/NotFoundView'
 import HomeView from './views/HomeView'
+import ProfileViewsTab from './views/ProfileViewsTab'
+
 
 export default function Router() {
 
@@ -21,6 +23,9 @@ export default function Router() {
                 <Route path='/admin' element={<AppLayout />}>
                     <Route index={true} element={<LinkTreeView />} />
                     <Route path='profile' element={<ProfileView />} /> 
+                    <Route path='views' element={<ProfileViewsTab />} /> {/* esta es la nueva ruta */}
+
+                    
                 </Route>
                 <Route path='/:handle' element={<AuthLayout />}>
                     <Route element={<HandleView />} index={true} />
